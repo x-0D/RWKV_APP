@@ -61,6 +61,10 @@ class BotMessageBottom extends ConsumerWidget {
     Clipboard.setData(ClipboardData(text: message));
   }
 
+  void _onTTSPlayPressed() {
+    P.world.play(path: msg.ttsTarget!);
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final s = S.of(context);
@@ -179,17 +183,26 @@ class BotMessageBottom extends ConsumerWidget {
             ),
           ),
         if (showEditButton)
-          GestureDetector(
-            onTap: _onBotEditPressed,
-            child: Padding(
-              padding: const EI.o(v: 12, r: 4, l: 4),
-              child: Icon(
-                Icons.edit,
-                color: primaryColor.q(.8),
-                size: 20,
-              ),
+          IconButton(
+            onPressed: _onBotEditPressed,
+            style: IconButton.styleFrom(padding: const EI.o(v: 0, r: 0, l: 0), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+            constraints: BoxConstraints(minWidth: 28, minHeight: 28),
+            icon: Icon(
+              Icons.edit,
+              color: primaryColor.q(.8),
+              size: 20,
             ),
           ),
+        IconButton(
+          style: IconButton.styleFrom(padding: const EI.o(v: 0, r: 0, l: 0), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
+          constraints: BoxConstraints(minWidth: 28, minHeight: 28),
+          onPressed: _onTTSPlayPressed,
+          icon: Icon(
+            Icons.volume_up,
+            color: primaryColor.q(.8),
+            size: 20,
+          ),
+        ),
         if (showShareButton)
           GestureDetector(
             onTap: _onSharePressed,
