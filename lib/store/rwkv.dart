@@ -91,6 +91,8 @@ class _RWKV {
 
   late final loadedModelIDs = qs<List<int>>([]);
 
+  late final loadedModelPaths = qs<Map<int, String>>({});
+
   late final _asyncTask = <to_rwkv.ToRWKV, Completer<from_rwkv.FromRWKV>>{};
 }
 
@@ -493,6 +495,20 @@ extension $RWKV on _RWKV {
     final res = await completer.future;
     loadedModelIDs.q = res.loadedModelIDs;
     return res.loadedModelIDs;
+  }
+
+  Future<String> syncLoadedModelPathByID(int modelID) async {
+    qq;
+    final req = to_rwkv.GetLoadedModelPathByID(modelID);
+    send(req);
+    final completer = Completer<from_rwkv.LoadedModelPathByID>();
+    _asyncTask[req] = completer;
+    final res = await completer.future;
+    loadedModelPaths.q = {
+      ...loadedModelPaths.q,
+      modelID: res.loadedModelPath,
+    };
+    return res.loadedModelPath;
   }
 
   Future<void> setAudioPrompt({required String path}) async {
@@ -919,8 +935,17 @@ extension _$RWKV on _RWKV {
   void _handleFromRWKV(from_rwkv.FromRWKV message) {
     _messagesController.add(message);
     switch (message) {
+      case from_rwkv.LoadedModelPathByID response:
+        final asyncTask = _asyncTask;
+        final completer = asyncTask[message.toRWKV];
+        if (completer != null) {
+          completer.complete(response);
+          asyncTask.remove(message.toRWKV);
+        } else {
+          qqe("completer is null");
+        }
+
       case from_rwkv.LoadedModelIDs response:
-        qq;
         final asyncTask = _asyncTask;
         final completer = asyncTask[message.toRWKV];
         if (completer != null) {

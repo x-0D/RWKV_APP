@@ -523,6 +523,10 @@ outputWavPath: $outputWavPath""");
     qq;
     final loadedModelIDs = await P.rwkv.syncLoadedModelIDs();
     qqq("loadedModelIDs: $loadedModelIDs");
+    for (final modelID in loadedModelIDs) {
+      final modelPath = await P.rwkv.syncLoadedModelPathByID(modelID);
+      qqq("modelPath: $modelPath");
+    }
   }
 }
 
