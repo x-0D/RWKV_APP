@@ -36,7 +36,7 @@ class TTSGroupItem extends ConsumerWidget {
     [...helperModels, core].forEach((e) => P.fileManager.deleteFile(fileInfo: e));
   }
 
-  Future<void> _onSparkTap() async {
+  Future<void> _onLoadTapped() async {
     if (P.rwkv.loading.q) {
       Alert.warning(S.current.please_wait_for_the_model_to_load);
       return;
@@ -259,7 +259,7 @@ class TTSGroupItem extends ConsumerWidget {
                 if (allDownloaded && !alreadyStarted)
                   _ActionButton(
                     text: loading ? s.loading : s.start_to_chat,
-                    onPressed: loading ? null : _onSparkTap,
+                    onPressed: loading ? null : _onLoadTapped,
                     color: primaryColor,
                     isDark: isDark,
                     isPrimary: true,

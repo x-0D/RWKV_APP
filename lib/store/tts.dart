@@ -1,33 +1,5 @@
 part of 'p.dart';
 
-extension _Instruction on Language {
-  String get _ttsSpkInstruct => switch (this) {
-    Language.none => "",
-    Language.en => "",
-    Language.ja => "日本語で話してください。",
-    Language.ko => "한국어로 말씀해주세요.",
-    Language.zh_Hans => "",
-    Language.zh_Hant => "",
-  };
-}
-
-extension _TTSStatic on _TTS {
-  static const _defaultTextInInput = "";
-  static const _replaceMap = {
-    "English": "🇺🇸",
-    "Japanese": "🇯🇵",
-    "Korean": "🇰🇷",
-    "Chinese(PRC)": "🇨🇳",
-  };
-  static const _spkNameToLanguageMap = {
-    "English": Language.en,
-    "Japanese": Language.ja,
-    "Korean": Language.ko,
-    "Chinese(PRC)": Language.zh_Hans,
-  };
-  static const _defaultSpkName = "Chinese(PRC)_Kafka_8";
-}
-
 class _TTS {
   late final audioInteractorShown = qs(false);
   late final focusNode = FocusNode();
@@ -290,20 +262,18 @@ extension _$TTS on _TTS {
     qqe("error: $error");
     if (!kDebugMode) Sentry.captureException(error, stackTrace: stackTrace);
   }
+
+  Future<String> _getPromptSpeechText(String spkName) async {
+    qq;
+    final fileName = "$spkName.json";
+    final data = await rootBundle.loadString("assets/lib/chat/$fileName");
+    final json = HF.json(jsonDecode(data));
+    return json["transcription"];
+  }
 }
 
 /// Public methods
 extension $TTS on _TTS {
-  Future<void> startStateSync() async {
-    Timer.periodic(500.ms, (timer) {
-      //
-    });
-  }
-
-  Future<void> stopStateSync() async {
-    // timer.cancel();
-  }
-
   Future<void> getTTSSpkNames() async {
     qq;
     try {
@@ -376,30 +346,12 @@ extension $TTS on _TTS {
     return name;
   }
 
-  @Deprecated("想想更面向状态的方法")
-  String flagChange(String input) {
-    String name = input;
-    _TTSStatic._replaceMap.forEach((key, value) {
-      name = name.replaceAll(key, value);
-    });
-
-    return name;
-  }
-
   Future<String> getPrebuiltSpkAudioPathFromTemp(String spkName) async {
     qq;
     final fileName = "$spkName.wav";
     final path = "assets/lib/chat/$fileName";
     final localPath = await fromAssetsToTemp(path);
     return localPath;
-  }
-
-  Future<String> getPromptSpeechText(String spkName) async {
-    qq;
-    final fileName = "$spkName.json";
-    final data = await rootBundle.loadString("assets/lib/chat/$fileName");
-    final json = HF.json(jsonDecode(data));
-    return json["transcription"];
   }
 
   Future<void> gen() async {
@@ -427,7 +379,7 @@ extension $TTS on _TTS {
       return;
     }
 
-    final promptSpeechText = spkName == null ? "" : await getPromptSpeechText(spkName);
+    final promptSpeechText = spkName == null ? "" : await _getPromptSpeechText(spkName);
     final selectSourceAudioPath = this.selectSourceAudioPath.q ?? await getPrebuiltSpkAudioPathFromTemp(spkName!);
     final ttsText = P.chat.textEditingController.text;
 
@@ -580,41 +532,6 @@ outputWavPath: $outputWavPath""");
 
     return (flag, nameCN, nameEN);
   }
-
-  void test() async {
-    late final mp_audio_stream.AudioStream audioStream;
-    if (this.audioStream == null) {
-      audioStream = mp_audio_stream.getAudioStream();
-      final res = audioStream.init(
-        sampleRate: 16000,
-        channels: 1,
-        bufferMilliSec: 60000,
-        waitingBufferMilliSec: 200,
-      );
-      audioStream.resetStat();
-      if (res != 0) {
-        qqe("audioStream init failed: $res");
-      } else {
-        audioStream.resume();
-      }
-    }
-
-    audioStream.resume();
-
-    const noteDuration = Duration(seconds: 1);
-    const pushFreq = 60; // Hz
-
-    for (double noteFreq in [261.626, 293.665, 329.628, 123, 456, 789, 10]) {
-      final wave = _synthSineWave(noteFreq, 16000, noteDuration);
-      // push wave data to audio stream in specified interval (pushFreq)
-      const step = 16000 ~/ pushFreq;
-      // await Future.delayed(Duration(milliseconds: 500));
-      for (int pos = 0; pos < wave.length; pos += step) {
-        audioStream.push(wave.sublist(pos, math.min(wave.length, pos + step)));
-        await Future.delayed(noteDuration ~/ pushFreq);
-      }
-    }
-  }
 }
 
 Map<String, dynamic> _parseSpkNames(String message) {
@@ -626,4 +543,32 @@ Float32List _synthSineWave(double freq, int sampleRate, Duration duration) {
   final sineWave = List.generate(length, (i) => math.sin(2 * math.pi * ((i * freq) % sampleRate) / sampleRate));
 
   return Float32List.fromList(sineWave);
+}
+
+extension _Instruction on Language {
+  String get _ttsSpkInstruct => switch (this) {
+    Language.none => "",
+    Language.en => "",
+    Language.ja => "日本語で話してください。",
+    Language.ko => "한국어로 말씀해주세요.",
+    Language.zh_Hans => "",
+    Language.zh_Hant => "",
+  };
+}
+
+extension _TTSStatic on _TTS {
+  static const _defaultTextInInput = "";
+  static const _replaceMap = {
+    "English": "🇺🇸",
+    "Japanese": "🇯🇵",
+    "Korean": "🇰🇷",
+    "Chinese(PRC)": "🇨🇳",
+  };
+  static const _spkNameToLanguageMap = {
+    "English": Language.en,
+    "Japanese": Language.ja,
+    "Korean": Language.ko,
+    "Chinese(PRC)": Language.zh_Hans,
+  };
+  static const _defaultSpkName = "Chinese(PRC)_Kafka_8";
 }

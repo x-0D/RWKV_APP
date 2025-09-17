@@ -61,9 +61,7 @@ class BotMessageBottom extends ConsumerWidget {
     Clipboard.setData(ClipboardData(text: message));
   }
 
-  void _onTTSPlayPressed() {
-    P.world.play(path: msg.ttsTarget!);
-  }
+  void _onTTSPlayPressed() {}
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
