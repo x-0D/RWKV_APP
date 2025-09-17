@@ -538,13 +538,6 @@ Map<String, dynamic> _parseSpkNames(String message) {
   return HF.json(jsonDecode(message));
 }
 
-Float32List _synthSineWave(double freq, int sampleRate, Duration duration) {
-  final length = duration.inMilliseconds * sampleRate ~/ 1000;
-  final sineWave = List.generate(length, (i) => math.sin(2 * math.pi * ((i * freq) % sampleRate) / sampleRate));
-
-  return Float32List.fromList(sineWave);
-}
-
 extension _Instruction on Language {
   String get _ttsSpkInstruct => switch (this) {
     Language.none => "",
