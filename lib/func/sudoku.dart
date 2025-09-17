@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:halo/halo.dart';
 
 typedef SudokuGrid = List<List<int>>;
 
@@ -75,7 +76,7 @@ List<int> getBlock(SudokuGrid grid, {required int row, required int col}) {
 
 void printGrid(SudokuGrid grid) {
   for (int i = 0; i < 9; i++) {
-    if (kDebugMode) print("row_$i: ${grid[i].join(' ')}");
+    if (kDebugMode) qqq("row_$i: ${grid[i].join(' ')}");
   }
 }
 

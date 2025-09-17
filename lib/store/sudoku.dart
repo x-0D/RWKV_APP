@@ -215,7 +215,7 @@ extension $Sudoku on _Sudoku {
   }
 
   void onGridPressed(BuildContext context, int col, int row) async {
-    if (kDebugMode) print("💬 onGridPressed: $col, $row");
+    if (kDebugMode) qqq("onGridPressed: $col, $row");
     final _running = running.q;
     if (_running) {
       await showOkAlertDialog(
@@ -387,7 +387,7 @@ extension $Sudoku on _Sudoku {
           final dynamicValue = dynamicData[i][j];
           if (staticValue != 0) {
             if (dynamicValue != staticValue) {
-              if (kDebugMode) print("🔥 $i $j $staticValue $dynamicValue");
+              if (kDebugMode) qqq("$i $j $staticValue $dynamicValue");
               // throw "似乎是推理错误了, 生成的结果篡改了原始 puzzle";
             }
           }

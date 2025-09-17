@@ -88,6 +88,10 @@ class _RWKV {
   });
 
   late final supportedBatchSizes = qs<List<int>>([]);
+
+  late final loadedModelIDs = qs<List<int>>([]);
+
+  late final _asyncTask = <to_rwkv.ToRWKV, Completer<from_rwkv.FromRWKV>>{};
 }
 
 extension $RWKVLoad on _RWKV {
@@ -480,6 +484,17 @@ extension $RWKVLoad on _RWKV {
 
 /// Public methods
 extension $RWKV on _RWKV {
+  Future<List<int>> syncLoadedModelIDs() async {
+    qq;
+    final req = to_rwkv.GetLoadedModelIDs();
+    send(req);
+    final completer = Completer<from_rwkv.LoadedModelIDs>();
+    _asyncTask[req] = completer;
+    final res = await completer.future;
+    loadedModelIDs.q = res.loadedModelIDs;
+    return res.loadedModelIDs;
+  }
+
   Future<void> setAudioPrompt({required String path}) async {
     send(to_rwkv.SetAudioPrompt(path));
   }
@@ -904,6 +919,17 @@ extension _$RWKV on _RWKV {
   void _handleFromRWKV(from_rwkv.FromRWKV message) {
     _messagesController.add(message);
     switch (message) {
+      case from_rwkv.LoadedModelIDs response:
+        qq;
+        final asyncTask = _asyncTask;
+        final completer = asyncTask[message.toRWKV];
+        if (completer != null) {
+          completer.complete(response);
+          asyncTask.remove(message.toRWKV);
+        } else {
+          qqe("completer is null");
+        }
+
       case from_rwkv.ReInitSteps res:
         final done = res.done;
         final success = res.success;

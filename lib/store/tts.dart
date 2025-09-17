@@ -519,7 +519,11 @@ outputWavPath: $outputWavPath""");
     return (flag, nameCN, nameEN);
   }
 
-  void onTTSPlayPressed() {}
+  void onTTSPlayPressed() async {
+    qq;
+    final loadedModelIDs = await P.rwkv.syncLoadedModelIDs();
+    qqq("loadedModelIDs: $loadedModelIDs");
+  }
 }
 
 Map<String, dynamic> _parseSpkNames(String message) {

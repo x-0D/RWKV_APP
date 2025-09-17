@@ -160,7 +160,6 @@ extension $Conversation on _Conversation {
     if (c.subtitle != null && c.subtitle!.length > 100) {
       return;
     }
-    qqq('update conversation subtitle');
     P.app._db.updateConv(id, subtitle: subtitle);
     await P.conversation.load();
   }

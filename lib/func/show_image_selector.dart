@@ -11,7 +11,6 @@ import 'package:zone/router/router.dart';
 import 'package:zone/store/p.dart';
 
 Future<void> showImageSelector() async {
-  qq;
   if (P.chat.focusNode.hasFocus) {
     P.chat.focusNode.unfocus();
     return;

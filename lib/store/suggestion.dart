@@ -224,9 +224,7 @@ class _Suggestion {
 
 /// Private methods
 extension _$Suggestion on _Suggestion {
-  Future<void> _init() async {
-    qq;
-  }
+  Future<void> _init() async {}
 }
 
 /// Public methods
