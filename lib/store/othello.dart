@@ -135,7 +135,6 @@ extension _$Othello on _Othello {
         return;
       case DemoType.othello:
     }
-    qq;
 
     P.app.pageKey.lb((_, next) {
       if (next == PageKey.othello) {
@@ -371,8 +370,6 @@ extension _$Othello on _Othello {
   }
 
   void _calculateAvailableCells() async {
-    qq;
-
     final state = this.state.q;
 
     final eatCountMatrixForBlack = List.generate(8, (_) => List.filled(8, 0));
@@ -738,7 +735,6 @@ MAX_DEPTH-$searchDepth
     }
 
     if (kDebugMode) {
-      qq;
       print("✅ Original prompt:");
       print(prompt);
       print("✅ Formated prompt:");

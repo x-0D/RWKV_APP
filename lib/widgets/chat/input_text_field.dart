@@ -136,7 +136,6 @@ class InputTextField extends ConsumerWidget {
   void _onChanged(String value) {}
 
   void _onTap() async {
-    qq;
     await Future.delayed(const Duration(milliseconds: 300));
     await P.chat.scrollToBottom();
   }
@@ -146,7 +145,6 @@ class InputTextField extends ConsumerWidget {
   void _onTapOutside(PointerDownEvent event) {}
 
   void _onTapTextFieldWhenItsDisabled() {
-    qq;
     if (!checkModelSelection()) return;
   }
 }

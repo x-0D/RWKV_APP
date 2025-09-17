@@ -95,7 +95,6 @@ class _TranslatorInterface extends ConsumerWidget {
   const _TranslatorInterface();
 
   Future<void> _onPressTest() async {
-    qq;
     P.translator.onPressTest();
   }
 
@@ -325,7 +324,6 @@ class _ServiceInfo extends ConsumerWidget {
   const _ServiceInfo();
 
   Future<void> _onPressed() async {
-    qq;
     final state = P.backend.httpState.q;
     switch (state) {
       case BackendState.starting:
@@ -502,7 +500,6 @@ class _TranslatorDebugInfo extends ConsumerWidget {
   const _TranslatorDebugInfo();
 
   Future<void> _onPressClearCompleterPool() async {
-    qq;
     P.backend.runningTasks.q = {};
     P.translator.browserTabInnerSize.q = {};
     P.translator.browserTabOuterSize.q = {};

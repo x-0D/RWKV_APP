@@ -172,7 +172,6 @@ class AppInfo extends ConsumerWidget {
   }
 
   void _openQQGroup1() async {
-    qq;
     final mqqapiString = "mqqapi://card/show_pslcard?src_type=internal&version=1&uin=332381861&card_type=group";
     if (await canLaunchUrl(Uri.parse(mqqapiString))) {
       launchUrl(Uri.parse(mqqapiString));

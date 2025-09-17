@@ -32,7 +32,6 @@ class _World {
 /// Public methods
 extension $World on _World {
   Future<void> startRecord() async {
-    qq;
     await stopPlaying();
     final hasPermission = await _recorder.hasPermission();
     if (!hasPermission) {
@@ -64,7 +63,7 @@ extension $World on _World {
 
   Future<bool> stopRecord({bool isCancel = false}) async {
     if (!recording.q) return false;
-    qq;
+
     recording.q = false;
 
     final cc = _currentStreamController;
@@ -119,7 +118,6 @@ extension $World on _World {
   }
 
   Future<void> play({required String path}) async {
-    qq;
     if (path.isEmpty) return;
     await stopPlaying();
     ap.Source source = ap.DeviceFileSource(path);
@@ -151,7 +149,7 @@ extension _$World on _World {
       case DemoType.tts:
       case DemoType.world:
     }
-    qq;
+
     P.rwkv.currentWorldType.lv(_onWorldTypeChanged);
     P.tts.audioInteractorShown.lv(_onAudioInteractorShown);
     P.app.demoType.lv(_onWorldTypeChanged);
@@ -191,8 +189,6 @@ extension _$World on _World {
   }
 
   void _onAudioInteractorShown() async {
-    qq;
-
     imagePath.q = null;
     imageHeight.q = null;
     visualFloatHeight.q = null;
@@ -254,8 +250,6 @@ extension _$World on _World {
   }
 
   void _onWorldTypeChanged() async {
-    qq;
-
     final demoType = P.app.demoType.q;
     final isWorldDemo = demoType == DemoType.world;
     final currentWorldType = P.rwkv.currentWorldType.q;

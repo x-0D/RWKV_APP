@@ -54,7 +54,7 @@ extension _$Guard on _Guard {
       case DemoType.tts:
       case DemoType.world:
     }
-    qq;
+
     try {
       await _loadFilter();
     } catch (_) {
@@ -63,8 +63,6 @@ extension _$Guard on _Guard {
   }
 
   Future<void> _loadFilter() async {
-    qq;
-
     final start = HF.milliseconds;
     final filter = await rootBundle.loadString("assets/filter.txt");
     final (res, maxLength) = await compute((filter) async {

@@ -53,7 +53,6 @@ extension _$Backend on _Backend {
   Future<void> _init() async {
     final isDesktop = P.app.isDesktop.q;
     if (!isDesktop) return;
-    qq;
   }
 
   Future<shelf.Response> _onHttpRequest(shelf.Request request) async {
@@ -254,8 +253,6 @@ extension $Backend on _Backend {
       return;
     }
 
-    qq;
-
     final port = httpPort.q;
     final url = "http://localhost:$port";
     httpState.q = BackendState.starting;
@@ -293,7 +290,7 @@ extension $Backend on _Backend {
   Future<void> stop() async {
     final isDesktop = P.app.isDesktop.q;
     if (!isDesktop) return;
-    qq;
+
     if (httpServer.q == null) {
       qqw("Backend is not running");
       Alert.warning("Backend is not running");

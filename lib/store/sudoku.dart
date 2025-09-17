@@ -107,7 +107,6 @@ extension $Sudoku on _Sudoku {
   }
 
   Future<void> onInferencePressed(BuildContext context) async {
-    qq;
     final _running = running.q;
     if (_running) {
       await showOkAlertDialog(
@@ -419,8 +418,6 @@ extension _$Sudoku on _Sudoku {
         return;
     }
 
-    qq;
-
     final directory = await getApplicationDocumentsDirectory();
     final filePath = '${directory.path}/output_log.txt';
     final file = File(filePath);
@@ -542,13 +539,9 @@ extension _$Sudoku on _Sudoku {
     }
   }
 
-  void _onStreamDone() {
-    qq;
-  }
+  void _onStreamDone() {}
 
-  void _onStreamError(dynamic error, StackTrace stackTrace) {
-    qq;
-  }
+  void _onStreamError(dynamic error, StackTrace stackTrace) {}
 
   String _genPrompt(func_sudoku.SudokuGrid grid) {
     final newPrompt =

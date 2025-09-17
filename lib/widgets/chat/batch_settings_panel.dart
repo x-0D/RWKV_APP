@@ -14,7 +14,6 @@ class BatchSettingsPanel extends ConsumerWidget {
   static final _shown = qs(false);
 
   static Future<void> show() async {
-    qq;
     if (_shown.q) return;
     _shown.q = true;
     final context = getContext();

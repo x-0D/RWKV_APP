@@ -115,7 +115,10 @@ class Empty extends ConsumerWidget {
                           onPressed: () async {
                             ModelSelector.show();
                           },
-                          child: T(demoType == DemoType.world ? s.select_a_world_type : s.select_a_model, s: const TS(s: 16, w: FontWeight.w600)),
+                          child: T(
+                            demoType == DemoType.world ? s.select_a_world_type : s.select_a_model,
+                            s: const TS(s: 16, w: FontWeight.w600),
+                          ),
                         ),
                       if (!loaded) 12.h,
                       if (loaded) T(s.you_are_now_using("")),

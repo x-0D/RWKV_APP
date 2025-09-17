@@ -58,7 +58,6 @@ extension _$Msg on _Msg {
       case DemoType.tts:
       case DemoType.world:
     }
-    qq;
   }
 
   Message? findByIndex(int index) {

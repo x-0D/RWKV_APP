@@ -33,7 +33,6 @@ class _TTS {
 /// Private methods
 extension _$TTS on _TTS {
   Future<void> _init() async {
-    qq;
     P.chat.focusNode.addListener(_onChatFocusNodeChanged);
 
     textEditingController.addListener(_onTextEditingControllerValueChanged);
@@ -76,7 +75,7 @@ extension _$TTS on _TTS {
   void _onSelectSpkNameChanged(String? next) {
     final pageKey = P.app.pageKey.q;
     if (pageKey != PageKey.talk) return;
-    qq;
+
     if (next == null) {
       selectedLanguage.q = Language.none;
       return;
@@ -134,8 +133,6 @@ extension _$TTS on _TTS {
     required String outputWavPath,
     required String promptSpeechText,
   }) async {
-    qq;
-
     final audioStream = mp_audio_stream.getAudioStream();
     final res = audioStream.init(
       sampleRate: 16000,
@@ -253,7 +250,6 @@ extension _$TTS on _TTS {
   void _onStreamDone() {
     final pageKey = P.app.pageKey.q;
     if (pageKey != PageKey.talk) return;
-    qq;
   }
 
   void _onStreamError(Object error, StackTrace stackTrace) {
@@ -264,7 +260,6 @@ extension _$TTS on _TTS {
   }
 
   Future<String> _getPromptSpeechText(String spkName) async {
-    qq;
     final fileName = "$spkName.json";
     final data = await rootBundle.loadString("assets/lib/chat/$fileName");
     final json = HF.json(jsonDecode(data));
@@ -275,7 +270,6 @@ extension _$TTS on _TTS {
 /// Public methods
 extension $TTS on _TTS {
   Future<void> getTTSSpkNames() async {
-    qq;
     try {
       final data = await rootBundle.loadString("assets/lib/chat/pairs.json");
       final spkPairs = await compute(_parseSpkNames, data);
@@ -287,7 +281,6 @@ extension $TTS on _TTS {
   }
 
   Future<void> onAudioInteractorButtonPressed() async {
-    qq;
     P.app.hapticLight();
     if (focusNode.hasFocus) focusNode.unfocus();
     if (P.chat.focusNode.hasFocus) P.chat.focusNode.unfocus();
@@ -299,7 +292,6 @@ extension $TTS on _TTS {
   }
 
   Future<void> onSpkButtonPressed() async {
-    qq;
     P.app.hapticLight();
     if (focusNode.hasFocus) focusNode.unfocus();
     if (P.chat.focusNode.hasFocus) P.chat.focusNode.unfocus();
@@ -311,7 +303,6 @@ extension $TTS on _TTS {
   }
 
   Future<void> onIntonationButtonPressed() async {
-    qq;
     P.app.hapticLight();
     if (focusNode.hasFocus) focusNode.unfocus();
     if (P.chat.focusNode.hasFocus) P.chat.focusNode.unfocus();
@@ -347,7 +338,6 @@ extension $TTS on _TTS {
   }
 
   Future<String> getPrebuiltSpkAudioPathFromTemp(String spkName) async {
-    qq;
     final fileName = "$spkName.wav";
     final path = "assets/lib/chat/$fileName";
     final localPath = await fromAssetsToTemp(path);
@@ -355,7 +345,6 @@ extension $TTS on _TTS {
   }
 
   Future<void> gen() async {
-    qq;
     if (!checkModelSelection()) return;
 
     if (!P.chat.inputHasContent.q) return;
@@ -478,7 +467,6 @@ outputWavPath: $outputWavPath""");
   }
 
   void onRefreshButtonPressed() {
-    qq;
     textInInput.q = _TTSStatic._defaultTextInInput;
     TTSInstruction.values.forEach((action) {
       instructions(action).q = null;
@@ -486,7 +474,6 @@ outputWavPath: $outputWavPath""");
   }
 
   void onClearButtonPressed() {
-    qq;
     textInInput.q = "";
     TTSInstruction.values.forEach((action) {
       instructions(action).q = null;
@@ -494,7 +481,6 @@ outputWavPath: $outputWavPath""");
   }
 
   void syncInstruction() {
-    qq;
     String instruction = "请用";
     TTSInstruction.values.where((e) => e.forInstruction).forEach((action) {
       final index = instructions(action).q;
@@ -532,6 +518,8 @@ outputWavPath: $outputWavPath""");
 
     return (flag, nameCN, nameEN);
   }
+
+  void onTTSPlayPressed() {}
 }
 
 Map<String, dynamic> _parseSpkNames(String message) {

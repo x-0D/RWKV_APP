@@ -61,8 +61,6 @@ class BotMessageBottom extends ConsumerWidget {
     Clipboard.setData(ClipboardData(text: message));
   }
 
-  void _onTTSPlayPressed() {}
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final s = S.of(context);
@@ -194,7 +192,7 @@ class BotMessageBottom extends ConsumerWidget {
         IconButton(
           style: IconButton.styleFrom(padding: const EI.o(v: 0, r: 0, l: 0), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
           constraints: BoxConstraints(minWidth: 28, minHeight: 28),
-          onPressed: _onTTSPlayPressed,
+          onPressed: P.tts.onTTSPlayPressed,
           icon: Icon(
             Icons.volume_up,
             color: primaryColor.q(.8),

@@ -171,7 +171,6 @@ class _IntonationPanel extends ConsumerWidget {
   const _IntonationPanel();
 
   void _onTap(String e) {
-    qq;
     final controller = P.chat.textEditingController;
     final selection = controller.selection;
     final text = controller.text;
@@ -407,7 +406,6 @@ class _Actions extends ConsumerWidget {
   }
 
   void _onRightButtonPressed() async {
-    qq;
     await P.tts.gen();
   }
 }
@@ -502,7 +500,6 @@ class _SpkPanel extends ConsumerWidget {
 
                   return GestureDetector(
                     onTap: () {
-                      qq;
                       P.tts.selectedSpkName.q = k;
                       P.tts.selectSourceAudioPath.q = null;
                       P.app.hapticLight();
@@ -591,7 +588,6 @@ class _InstructTabs extends ConsumerWidget {
   const _InstructTabs();
 
   void _onTap(TTSInstruction e) {
-    qq;
     if (P.tts.interactingInstruction.q == e) {
       P.tts.interactingInstruction.q = TTSInstruction.none;
     } else {
@@ -688,7 +684,6 @@ class _InstructOptions extends ConsumerWidget {
   const _InstructOptions();
 
   void _onTap(int index) {
-    qq;
     P.app.hapticLight();
     final interactingInstruction = P.tts.interactingInstruction.q;
     if (interactingInstruction == TTSInstruction.none) return;
@@ -860,7 +855,6 @@ class _TextField extends ConsumerWidget {
   void _onEditingComplete() {}
 
   void _onTap() async {
-    qq;
     await Future.delayed(const Duration(milliseconds: 300));
     await P.chat.scrollToBottom();
   }
@@ -889,7 +883,6 @@ class _TextField extends ConsumerWidget {
   }
 
   void _onTapTextFieldWhenItsDisabled() {
-    qq;
     if (!checkModelSelection()) return;
   }
 }

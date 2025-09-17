@@ -180,8 +180,6 @@ class _MessageButton extends ConsumerWidget {
   const _MessageButton();
 
   void _onPressed() async {
-    qq;
-
     final currentWorldType = P.rwkv.currentWorldType.q;
     final imagePath = P.world.imagePath.q;
 

@@ -20,7 +20,6 @@ extension _$Conversation on _Conversation {
   }
 
   Future<void> _onMsgNodeChanged() async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
 
     final createAtUS = P.msg.msgNode.q.createAtInUS;
@@ -31,7 +30,6 @@ extension _$Conversation on _Conversation {
   }
 
   Future<void> _syncNode() async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
 
     final msgNode = P.msg.msgNode.q;
@@ -60,10 +58,8 @@ extension _$Conversation on _Conversation {
 extension $Conversation on _Conversation {
   Future<void> load() async {
     try {
-      qqq(HF.microseconds);
       final db = P.app._db;
       final list = await db.convPage();
-      qqq("${list.length}");
       conversations.q = list;
     } catch (e) {
       qqq(e);
@@ -78,7 +74,6 @@ extension $Conversation on _Conversation {
   }
 
   Future<void> onTapInList(ConversationData conversation) async {
-    qq;
     currentCreatedAtUS.q = conversation.createdAtUS;
     // Pager.toggle();
     final msgNode = MsgNode.fromJson(
@@ -94,7 +89,6 @@ extension $Conversation on _Conversation {
   }
 
   Future<void> onDeleteClicked(BuildContext context, ConversationData conversation) async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
 
     final db = P.app._db;
@@ -118,7 +112,6 @@ extension $Conversation on _Conversation {
   }
 
   Future<void> onRenameClicked(BuildContext context, ConversationData conversation) async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
 
     final s = S.of(context);
@@ -157,7 +150,6 @@ extension $Conversation on _Conversation {
   }
 
   void updateCurrentConvSubtitle(String subtitle) async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
     final id = P.conversation.currentCreatedAtUS.q;
     if (id == null) {
@@ -199,7 +191,6 @@ extension $Conversation on _Conversation {
   ///
   /// context
   Future<void> onExportClicked(BuildContext context, ConversationData conversation) async {
-    qq;
     if (P.rwkv.inTTSOrTranslateMode.q) return;
     final s = S.of(context);
     try {

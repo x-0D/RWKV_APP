@@ -70,8 +70,6 @@ extension $App on _App {
   /// 1. 先从 sandbox 中同步配置, 如果 sandbox 中没有, 则从应用包中加载, 并存储到本地沙盒中
   /// 2. 再从服务器同步配置
   Future<void> syncConfig() async {
-    qq;
-
     final (config, sp) = await _loadConfigFromLocal();
     _config.q = config;
     await _parseConfigForDemoSpecificData(config[demoType.q.name]);
@@ -143,8 +141,6 @@ extension $App on _App {
 /// Private methods
 extension _$App on _App {
   Future<void> _init() async {
-    qq;
-
     _initDB();
 
     _isDesktop.q = Platform.isWindows || Platform.isMacOS || Platform.isLinux;
@@ -260,7 +256,6 @@ extension _$App on _App {
   }
 
   Future<void> _statusBarToDarkMode() async {
-    qq;
     SystemChrome.setSystemUIOverlayStyle(systemOverlayStyleDark);
   }
 
@@ -268,7 +263,7 @@ extension _$App on _App {
 
   Future<void> _showNewVersionDialogIfNeeded() async {
     if (!Platform.isIOS && !Platform.isAndroid) return;
-    qq;
+
     if (Platform.isAndroid && _latestBuild.q <= int.parse(buildNumber.q)) return;
     if (Platform.isIOS && _latestBuildIos.q <= int.parse(buildNumber.q)) return;
 

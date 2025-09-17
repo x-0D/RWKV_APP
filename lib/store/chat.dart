@@ -87,7 +87,6 @@ extension $Chat on _Chat {
   }
 
   Future<void> onSendButtonPressed() async {
-    qq;
     if (!checkModelSelection()) return;
 
     if (!inputHasContent.q) {
@@ -146,9 +145,7 @@ extension $Chat on _Chat {
     await send(textToSend);
   }
 
-  Future<void> onEditingComplete() async {
-    qq;
-  }
+  Future<void> onEditingComplete() async {}
 
   Future<void> onKeyboardSubmitted(String aString) async {
     qqq(aString);
@@ -173,7 +170,6 @@ extension $Chat on _Chat {
   }
 
   Future<void> onTapMessageList() async {
-    qq;
     P.chat.focusNode.unfocus();
     P.tts.dismissAllShown();
     final _editingIndex = P.msg.editingOrRegeneratingIndex.q;
@@ -183,7 +179,6 @@ extension $Chat on _Chat {
   }
 
   Future<void> onTapClearInput() async {
-    qq;
     textEditingController.clear();
     textInInput.q = "";
     P.msg.editingOrRegeneratingIndex.q = null;
@@ -410,7 +405,6 @@ extension $Chat on _Chat {
   }
 
   Future<void> resumeMessageById({required int id, bool withHaptic = true}) async {
-    qq;
     if (withHaptic) P.app.hapticLight();
     // TODO: support batch inference
     P.rwkv.sendMessages(_history(), batchSize: batchEnabled.q ? batchCount.q : 1);
@@ -435,7 +429,6 @@ extension _$Chat on _Chat {
       case DemoType.tts:
       case DemoType.world:
     }
-    qq;
 
     textEditingController.addListener(_onTextEditingControllerValueChanged);
     textInInput.l(_onTextChanged);
@@ -539,8 +532,6 @@ extension _$Chat on _Chat {
   void _onReceivingTokensChanged(bool next) async {}
 
   Future<void> _pauseMessageById({required int id, bool isSensitive = false}) async {
-    qq;
-
     P.rwkv.stop();
 
     final msg = P.msg.pool.q[id];
@@ -751,7 +742,7 @@ extension _$Chat on _Chat {
   void _onStreamDone() async {
     final pageKey = P.app.pageKey.q;
     if (pageKey == PageKey.translator) return;
-    qq;
+
     final demoType = P.app.demoType.q;
     if (demoType != DemoType.chat && demoType != DemoType.world) return;
     receivingTokens.q = false;

@@ -28,8 +28,6 @@ class ModelItem extends ConsumerWidget {
   const ModelItem(this.fileInfo, this.showTags, {super.key, this.loadButtonTextShowLoad = false});
 
   void _onStartTap() async {
-    qq;
-
     switch (P.app.demoType.q) {
       case DemoType.sudoku:
         await _onStartTapInSudoku();
@@ -43,7 +41,6 @@ class ModelItem extends ConsumerWidget {
   }
 
   Future<void> _onStartTapInSudoku() async {
-    qq;
     final localFile = P.fileManager.locals(fileInfo).q;
     final modelPath = localFile.targetPath;
     final backend = fileInfo.backend;
@@ -63,7 +60,6 @@ class ModelItem extends ConsumerWidget {
   }
 
   Future<void> _onStartTapInChat() async {
-    qq;
     if (P.chat.receivingTokens.q) {
       Alert.warning(S.current.please_wait_for_the_model_to_generate);
       return;
@@ -295,7 +291,6 @@ class _Delete extends ConsumerWidget {
   const _Delete(this.fileInfo);
 
   void _onTap() async {
-    qq;
     final result = await showOkCancelAlertDialog(
       context: getContext()!,
       title: S.current.are_you_sure_you_want_to_delete_this_model,

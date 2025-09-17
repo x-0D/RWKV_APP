@@ -98,7 +98,6 @@ extension $RWKVLoad on _RWKV {
     required bool enableReasoning,
     required String? adapterPath,
   }) async {
-    qq;
     _loading.q = true;
     prefillSpeed.q = 0;
     decodeSpeed.q = 0;
@@ -165,7 +164,6 @@ extension $RWKVLoad on _RWKV {
     required String encoderPath,
     required Backend backend,
   }) async {
-    qq;
     _loading.q = true;
     prefillSpeed.q = 0;
     decodeSpeed.q = 0;
@@ -219,7 +217,6 @@ extension $RWKVLoad on _RWKV {
     required String bicodecTokenzerPath,
     required Backend backend,
   }) async {
-    qq;
     _loading.q = true;
     prefillSpeed.q = 0;
     decodeSpeed.q = 0;
@@ -316,7 +313,6 @@ extension $RWKVLoad on _RWKV {
     required Backend backend,
     required bool enableReasoning,
   }) async {
-    qq;
     _loading.q = true;
     prefillSpeed.q = 0;
     decodeSpeed.q = 0;
@@ -818,7 +814,6 @@ extension _$RWKV on _RWKV {
         await loadOthello();
         break;
       case PageKey.chat:
-        qq;
         send(to_rwkv.GetSupportedBatchSizes());
         break;
       default:

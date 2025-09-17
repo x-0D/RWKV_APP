@@ -99,7 +99,6 @@ class WorldGroupItem extends ConsumerWidget {
   }
 
   void _onContinueTap() async {
-    qq;
     pop();
   }
 

@@ -36,7 +36,6 @@ class _FileManager {
 /// Public methods
 extension $FileManager on _FileManager {
   Future<void> syncAvailableModels() async {
-    qq;
     final config = P.app._config.q;
     if (config == null) {
       qqe("config is null");
@@ -58,7 +57,6 @@ extension $FileManager on _FileManager {
   }
 
   Future<void> checkLocal() async {
-    qq;
     await Future.delayed(const Duration(milliseconds: 17));
     final fileInfos = [
       chatWeights.q,

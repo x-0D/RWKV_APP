@@ -35,5 +35,4 @@ enum DemoType {
   ColorScheme get colorSchemeDark => switch (this) {
     _ => ColorScheme.fromSeed(seedColor: _seedColor, brightness: Brightness.dark),
   };
-
 }

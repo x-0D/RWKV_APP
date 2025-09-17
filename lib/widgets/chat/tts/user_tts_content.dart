@@ -27,7 +27,6 @@ class UserTTSContent extends ConsumerWidget {
   }
 
   void _onTTSPlayPressed() {
-    qq;
     P.msg.latestClicked.q = msg;
     final audioUrl = msg.audioUrl;
     if (audioUrl == null) {
@@ -42,7 +41,6 @@ class UserTTSContent extends ConsumerWidget {
   }
 
   void _onSharePressed() async {
-    qq;
     P.msg.latestClicked.q = msg;
     final audioUrl = msg.audioUrl;
     if (audioUrl == null) {

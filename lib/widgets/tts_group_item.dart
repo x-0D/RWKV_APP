@@ -103,7 +103,6 @@ class TTSGroupItem extends ConsumerWidget {
   }
 
   Future<void> _onContinueTap() async {
-    qq;
     pop();
   }
 
