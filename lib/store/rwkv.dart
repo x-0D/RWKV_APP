@@ -128,8 +128,6 @@ extension $RWKVLoad on _RWKV {
 
     await _ensureQNNCopied();
 
-    final rootIsolateToken = RootIsolateToken.instance;
-
     if (_sendPort != null) {
       try {
         send(to_rwkv.ReleaseWhisperEncoder());
@@ -150,7 +148,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }
@@ -191,8 +189,6 @@ extension $RWKVLoad on _RWKV {
 
     final tokenizerPath = await fromAssetsToTemp("assets/config/chat/b_rwkv_vocab_v20230424.txt");
 
-    final rootIsolateToken = RootIsolateToken.instance;
-
     if (_sendPort != null) {
       send(to_rwkv.ReleaseVisionEncoder());
       send(to_rwkv.ReleaseModel());
@@ -206,7 +202,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }
@@ -231,7 +227,7 @@ extension $RWKVLoad on _RWKV {
     _loading.q = false;
   }
 
-  Future<void> loadSparkTTS({
+  Future<void> loadTTS({
     required String modelPath,
     required String wav2vec2Path,
     required String detokenizePath,
@@ -244,7 +240,6 @@ extension $RWKVLoad on _RWKV {
 
     final tokenizerPath = await fromAssetsToTemp("assets/config/chat/vocab_talk.txt");
     await _ensureQNNCopied();
-    final rootIsolateToken = RootIsolateToken.instance;
 
     if (_sendPort != null) {
       try {
@@ -265,7 +260,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }
@@ -303,7 +298,35 @@ extension $RWKVLoad on _RWKV {
     _loading.q = false;
   }
 
-  Future switchChatModel(FileInfo fileInfo) async {
+  Future<void> addTTS({
+    required String modelPath,
+    required String wav2vec2Path,
+    required String detokenizePath,
+    required String bicodecTokenzerPath,
+    required Backend backend,
+  }) async {
+    if (_sendPort == null) {
+      qqe("chat model isn't loaded");
+      return;
+    }
+
+    _loading.q = true;
+    final tokenizerPath = await fromAssetsToTemp("assets/config/chat/vocab_talk.txt");
+    await _ensureQNNCopied();
+    send(
+      to_rwkv.AddTTSModel(
+        modelPath: modelPath,
+        backend: backend,
+        tokenizerPath: tokenizerPath,
+        wav2vec2Path: wav2vec2Path,
+        bicodecTokenizerPath: bicodecTokenzerPath,
+        bicodecDetokenizerPath: detokenizePath,
+      ),
+    );
+    _loading.q = false;
+  }
+
+  Future<void> switchChatModel(FileInfo fileInfo) async {
     final current = P.rwkv.currentModel.q;
     if (current == fileInfo) {
       return;
@@ -341,8 +364,6 @@ extension $RWKVLoad on _RWKV {
 
     await _ensureQNNCopied();
 
-    final rootIsolateToken = RootIsolateToken.instance;
-
     if (_sendPort != null) {
       try {
         final startMS = HF.milliseconds;
@@ -361,7 +382,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }
@@ -398,8 +419,6 @@ extension $RWKVLoad on _RWKV {
       backend = Backend.ncnn;
     }
 
-    final rootIsolateToken = RootIsolateToken.instance;
-
     if (_sendPort != null) {
       send(
         to_rwkv.ReInitRuntime(
@@ -414,7 +433,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }
@@ -454,7 +473,6 @@ extension $RWKVLoad on _RWKV {
     await paramFile.writeAsBytes(data.buffer.asUint8List());
 
     await _ensureQNNCopied();
-    final rootIsolateToken = RootIsolateToken.instance;
 
     if (_sendPort != null) {
       send(
@@ -470,7 +488,7 @@ extension $RWKVLoad on _RWKV {
         tokenizerPath: tokenizerPath,
         backend: backend,
         sendPort: _receivePort.sendPort,
-        rootIsolateToken: rootIsolateToken!,
+        rootIsolateToken: RootIsolateToken.instance!,
       );
       await RWKVMobile().runIsolate(options);
     }

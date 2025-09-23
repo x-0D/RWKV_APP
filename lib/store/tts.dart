@@ -527,6 +527,8 @@ outputWavPath: $outputWavPath""");
       final modelPath = await P.rwkv.syncLoadedModelPathByID(modelID);
       qqq("modelPath: $modelPath");
     }
+    
+    await ModelSelector.show(preferredDemoType: DemoType.tts);
   }
 }
 

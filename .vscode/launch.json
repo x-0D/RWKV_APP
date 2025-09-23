@@ -39,7 +39,7 @@
       "flutterMode": "debug",
       "args": [
         //
-        "--dart-define=logLevel=3",
+        // "--dart-define=logLevel=3",
         "--dart-define=showHaloDebugger=true"
       ],
       "deviceId": "90313e34"

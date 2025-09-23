@@ -138,7 +138,6 @@ class BatchSettingsPanel extends ConsumerWidget {
                   onTap: () {},
                   bottom: ArgumentValue(
                     Argument.batchCount,
-                    // TODO: @wangce Handle batch count get from backend
                     _onChanged,
                     showTitle: false,
                     showValue: false,

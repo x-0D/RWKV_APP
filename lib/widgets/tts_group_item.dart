@@ -10,6 +10,7 @@ import 'package:halo/halo.dart';
 import 'package:zone/model/file_info.dart';
 import 'package:zone/model/group_info.dart';
 import 'package:zone/router/method.dart';
+import 'package:zone/router/page_key.dart';
 import 'package:zone/router/router.dart';
 import 'package:zone/store/p.dart';
 import 'package:halo_alert/halo_alert.dart';
@@ -34,6 +35,69 @@ class TTSGroupItem extends ConsumerWidget {
     final helperModels = P.fileManager.ttsWeights.q.where((e) => !e.tags.contains("core")).toList();
     final core = fileInfo;
     [...helperModels, core].forEach((e) => P.fileManager.deleteFile(fileInfo: e));
+  }
+
+  Future<void> _onAddTapped() async {
+    if (P.rwkv.loading.q) {
+      Alert.warning(S.current.please_wait_for_the_model_to_load);
+      return;
+    }
+    final availableModels = P.fileManager.ttsWeights.q;
+    final fileInfos = availableModels.toList();
+    final sparkFileKeys = fileInfos.where((e) => e.tags.contains("spark")).toList();
+    if (sparkFileKeys.isEmpty) {
+      Alert.error("Spark file not found");
+      qqe;
+      return;
+    }
+
+    final wav2vec2FileKey = sparkFileKeys.firstWhereOrNull((e) => e.tags.contains("wav2vec2"));
+    final detokenizeFileKey = sparkFileKeys.firstWhereOrNull((e) => e.tags.contains("detokenize"));
+    final bicodecTokenizeFileKey = sparkFileKeys.firstWhereOrNull((e) => e.tags.contains("tokenize"));
+
+    if (wav2vec2FileKey == null) {
+      Alert.error("Wav2vec2 file not found");
+      qqe;
+      return;
+    }
+
+    if (detokenizeFileKey == null) {
+      Alert.error("Detokenize file not found");
+      qqe;
+      return;
+    }
+
+    if (bicodecTokenizeFileKey == null) {
+      Alert.error("Tokenize file not found");
+      qqe;
+      return;
+    }
+
+    final modelLocalFile = P.fileManager.locals(fileInfo).q;
+    final localWav2vec2File = P.fileManager.locals(wav2vec2FileKey).q;
+    final localDetokenizeFile = P.fileManager.locals(detokenizeFileKey).q;
+    final localTokenizeFile = P.fileManager.locals(bicodecTokenizeFileKey).q;
+
+    try {
+      await P.rwkv.addTTS(
+        modelPath: modelLocalFile.targetPath,
+        backend: fileInfo.backend!,
+        wav2vec2Path: localWav2vec2File.targetPath,
+        detokenizePath: localDetokenizeFile.targetPath,
+        bicodecTokenzerPath: localTokenizeFile.targetPath,
+      );
+      P.tts.getTTSSpkNames();
+      Navigator.pop(getContext()!);
+    } catch (e) {
+      qqe("$e");
+      Alert.error(e.toString());
+      P.rwkv.currentGroupInfo.q = null;
+      return;
+    }
+
+    // P.rwkv.currentGroupInfo.q = GroupInfo(displayName: fileInfo.name);
+    // P.rwkv.currentModel.q = fileInfo;
+    Alert.success(S.current.you_can_now_start_to_chat_with_rwkv);
   }
 
   Future<void> _onLoadTapped() async {
@@ -81,7 +145,7 @@ class TTSGroupItem extends ConsumerWidget {
     P.chat.clearMessages();
 
     try {
-      await P.rwkv.loadSparkTTS(
+      await P.rwkv.loadTTS(
         modelPath: modelLocalFile.targetPath,
         backend: fileInfo.backend!,
         wav2vec2Path: localWav2vec2File.targetPath,
@@ -258,7 +322,7 @@ class TTSGroupItem extends ConsumerWidget {
                 if (allDownloaded && !alreadyStarted)
                   _ActionButton(
                     text: loading ? s.loading : s.start_to_chat,
-                    onPressed: loading ? null : _onLoadTapped,
+                    onPressed: loading ? null : (P.app.pageKey.q == PageKey.talk ? _onLoadTapped : _onAddTapped),
                     color: primaryColor,
                     isDark: isDark,
                     isPrimary: true,
