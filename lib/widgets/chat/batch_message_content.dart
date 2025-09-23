@@ -3,7 +3,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:halo/halo.dart';
 import 'package:halo_state/halo_state.dart';
-import 'package:zone/func/extrack_thought_and_output.dart';
+import 'package:zone/func/extract_thought_and_output.dart';
 import 'package:zone/func/get_batch_info.dart';
 import 'package:zone/model/message.dart' as model;
 import 'package:zone/store/p.dart';
@@ -181,7 +181,7 @@ class _MarkdownBody extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final qb = ref.watch(P.app.qb);
 
-    final (thought, output) = extrackThoughtAndOutput(data);
+    final (thought, output) = extractThoughtAndOutput(data);
 
     final factorOfOutput = TextScaler.linear(MediaQuery.textScalerOf(context).scale(_kTextScaleFactor));
 

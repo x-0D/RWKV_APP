@@ -62,6 +62,7 @@ import 'package:zone/model/group_info.dart';
 import 'package:zone/model/language.dart';
 import 'package:zone/model/local_file.dart';
 import 'package:zone/model/message.dart';
+import 'package:zone/model/message.dart' as model;
 import 'package:zone/model/message_type.dart';
 import 'package:zone/model/msg_node.dart';
 import 'package:zone/model/prompt_template.dart';

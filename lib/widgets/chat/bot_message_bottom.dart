@@ -9,6 +9,7 @@ import 'package:halo/halo.dart';
 import 'package:halo_alert/halo_alert.dart';
 import 'package:halo_state/halo_state.dart';
 import 'package:zone/config.dart';
+import 'package:zone/func/extract_thought_and_output.dart';
 import 'package:zone/func/get_batch_info.dart';
 import 'package:zone/gen/l10n.dart';
 import 'package:zone/model/demo_type.dart';
@@ -192,7 +193,13 @@ class BotMessageBottom extends ConsumerWidget {
         IconButton(
           style: IconButton.styleFrom(padding: const EI.o(v: 0, r: 0, l: 0), tapTargetSize: MaterialTapTargetSize.shrinkWrap),
           constraints: BoxConstraints(minWidth: 28, minHeight: 28),
-          onPressed: P.tts.onTTSPlayPressed,
+          onPressed: () {
+            final targetText = extractThoughtAndOutput(msg.content).$2;
+            P.tts.onTTSPlayPressed(
+              msg: msg,
+              text: targetText,
+            );
+          },
           icon: Icon(
             Icons.volume_up,
             color: primaryColor.q(.8),

@@ -111,17 +111,18 @@ extension _$TTS on _TTS {
     if (textInInput.q != textInController) textInInput.q = textInController;
   }
 
-  void _startQueryTimer() {
-    _queryTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) => _pulse());
+  void _startQueryTimer({int? modelID}) {
+    _queryTimer = Timer.periodic(const Duration(milliseconds: 100), (timer) => _pulse(modelID: modelID));
   }
 
-  void _pulse() {
-    P.rwkv.send(to_rwkv.GetPrefillAndDecodeSpeed());
-    P.rwkv.send(to_rwkv.GetTTSStreamingBuffer());
-    P.rwkv.send(to_rwkv.GetIsGenerating());
+  void _pulse({int? modelID}) {
+    qqq("modelID: $modelID");
+    P.rwkv.send(to_rwkv.GetPrefillAndDecodeSpeed(modelID: modelID));
+    P.rwkv.send(to_rwkv.GetTTSStreamingBuffer(modelID: modelID));
+    P.rwkv.send(to_rwkv.GetIsGenerating(modelID: modelID));
   }
 
-  void _stopQueryTimer() {
+  void _stopQueryTimer({int? modelID}) {
     _queryTimer?.cancel();
     _queryTimer = null;
   }
@@ -132,6 +133,7 @@ extension _$TTS on _TTS {
     required String promptWavPath,
     required String outputWavPath,
     required String promptSpeechText,
+    int? modelID,
   }) async {
     final audioStream = mp_audio_stream.getAudioStream();
     final res = audioStream.init(
@@ -159,6 +161,7 @@ extension _$TTS on _TTS {
 
     P.rwkv.send(
       to_rwkv.StartTTS(
+        modelID: modelID,
         ttsText: ttsText,
         instructionText: instructionText,
         promptWavPath: promptWavPath,
@@ -179,18 +182,17 @@ extension _$TTS on _TTS {
       );
     }
 
-    _stopQueryTimer();
-    _startQueryTimer();
+    _stopQueryTimer(modelID: modelID);
+    _startQueryTimer(modelID: modelID);
   }
 
   void _onStreamEvent(from_rwkv.FromRWKV event) {
-    final pageKey = P.app.pageKey.q;
-    if (pageKey != PageKey.talk) return;
     switch (event) {
       case from_rwkv.TTSStreamingBuffer res:
         _onTTSStreamingBuffer(res);
         break;
       case from_rwkv.IsGenerating res:
+        qqq("modelID: ${res.modelID}");
         _onIsGenerating(res);
         break;
       default:
@@ -217,6 +219,7 @@ extension _$TTS on _TTS {
   }
 
   void _onTTSStreamingBuffer(from_rwkv.TTSStreamingBuffer res) async {
+    qq;
     final length = res.ttsStreamingBufferLength;
     final generating = res.generating;
     final allReceived = !generating && this.generating.q;
@@ -519,7 +522,7 @@ outputWavPath: $outputWavPath""");
     return (flag, nameCN, nameEN);
   }
 
-  void onTTSPlayPressed() async {
+  void onTTSPlayPressed({required model.Message msg, required String text}) async {
     qq;
     final loadedModelIDs = await P.rwkv.syncLoadedModelIDs();
     qqq("loadedModelIDs: $loadedModelIDs");
@@ -527,8 +530,23 @@ outputWavPath: $outputWavPath""");
       final modelPath = await P.rwkv.syncLoadedModelPathByID(modelID);
       qqq("modelPath: $modelPath");
     }
-    
-    await ModelSelector.show(preferredDemoType: DemoType.tts);
+    if (loadedModelIDs.length == 2) {
+      final spkName = selectedSpkName.q;
+      final promptSpeechText = spkName == null ? "" : await _getPromptSpeechText(spkName);
+      final selectSourceAudioPath = this.selectSourceAudioPath.q ?? await getPrebuiltSpkAudioPathFromTemp(spkName!);
+      final outputWavPath = P.app.cacheDir.q!.path + "/${msg.id}.output.wav";
+      qr;
+      _runTTS(
+        modelID: 1,
+        ttsText: text,
+        instructionText: "",
+        promptWavPath: selectSourceAudioPath,
+        outputWavPath: selectSourceAudioPath,
+        promptSpeechText: promptSpeechText,
+      );
+    } else {
+      await ModelSelector.show(preferredDemoType: DemoType.tts);
+    }
   }
 }
 
