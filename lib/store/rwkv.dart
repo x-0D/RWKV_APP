@@ -323,6 +323,15 @@ extension $RWKVLoad on _RWKV {
         bicodecDetokenizerPath: detokenizePath,
       ),
     );
+
+    final ttsTextNormalizerDatePath = await fromAssetsToTemp("assets/config/chat/date-zh.fst");
+    final ttsTextNormalizerNumberPath = await fromAssetsToTemp("assets/config/chat/number-zh.fst");
+    final ttsTextNormalizerPhonePath = await fromAssetsToTemp("assets/config/chat/phone-zh.fst");
+    // note: order matters here
+    send(to_rwkv.LoadTTSTextNormalizer(ttsTextNormalizerDatePath));
+    send(to_rwkv.LoadTTSTextNormalizer(ttsTextNormalizerPhonePath));
+    send(to_rwkv.LoadTTSTextNormalizer(ttsTextNormalizerNumberPath));
+
     _loading.q = false;
   }
 
